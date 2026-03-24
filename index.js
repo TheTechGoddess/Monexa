@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 
 const authRouter = require("./routers/authRouter");
 const userRouter = require("./routers/userRouter");
+const categoryRouter = require("./routers/categoryRouter");
 
 const app = express();
 const PORT = process.env.PORT || 8000;
@@ -18,6 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/auth", authRouter);
 app.use("/api/users", userRouter);
+app.use("/api/categories", categoryRouter);
 
 app.get("/", (req, res) => {
   res.json({ message: "Monexa backend is alive 🚀" });

@@ -102,6 +102,22 @@ exports.updateUserProfileSchema = Joi.object({
   .min(1)
   .unknown(false);
 
+exports.createCategorySchema = Joi.object({
+  name: Joi.string().trim().min(1).required(),
+  type: Joi.string().valid("income", "expense").required(),
+  icon: Joi.string().trim().min(1).allow(null),
+  color: Joi.string().trim().min(1).allow(null),
+}).unknown(false);
+
+exports.updateCategorySchema = Joi.object({
+  name: Joi.string().trim().min(1),
+  type: Joi.string().valid("income", "expense"),
+  icon: Joi.string().trim().min(1).allow(null),
+  color: Joi.string().trim().min(1).allow(null),
+})
+  .min(1)
+  .unknown(false);
+
 exports.createPostSchema = Joi.object({
   title: Joi.string().min(6).max(60).required(),
   description: Joi.string().min(6).max(600).required(),
