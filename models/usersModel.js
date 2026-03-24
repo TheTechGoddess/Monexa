@@ -19,6 +19,60 @@ const userSchema = mongoose.Schema(
       trim: true,
       select: false,
     },
+    first_name: {
+      type: String,
+      default: null,
+      trim: true,
+    },
+    last_name: {
+      type: String,
+      default: null,
+      trim: true,
+    },
+    currency: {
+      type: String,
+      default: null,
+      trim: true,
+    },
+    timezone: {
+      type: String,
+      default: null,
+      trim: true,
+    },
+    monthly_income: {
+      type: [
+        {
+          company: { type: String, required: true, trim: true },
+          income: { type: Number, required: true },
+        },
+      ],
+      default: null,
+    },
+    tax: {
+      type: Number,
+      default: null,
+    },
+    phone_number: {
+      type: String,
+      default: null,
+      trim: true,
+    },
+    profile_image: {
+      type: Buffer,
+      default: null,
+      select: false,
+    },
+    profile_image_mime_type: {
+      type: String,
+      default: null,
+      trim: true,
+      select: false,
+    },
+    profile_image_size: {
+      type: Number,
+      default: 0,
+      select: false,
+    },
 
     role: {
       type: String,

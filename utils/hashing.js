@@ -11,7 +11,15 @@ exports.doHashValidation = (value, hashedValue) => {
   return response;
 };
 
-exports.hmacProcess = (value, key) => {
-  const response = createHmac("sha256", key).update(value).digest("hex");
-  return response;
+exports.hmacProcess = (value, secretKey) => {
+  const key =
+    secretKey || process.env.HMAC_VERIFICATION_CODE_SECRET;
+
+  if (!key) {
+    throw new Error("HMAC secret is not configured");
+  }
+
+  return createHmac("sha256", key)
+    .update(value)
+    .digest("hex");
 };

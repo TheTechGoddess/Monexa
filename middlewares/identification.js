@@ -1,26 +1,32 @@
 const jwt = require("jsonwebtoken");
 
 exports.identifier = (req, res, next) => {
-  let token;
+  const token = req.headers.authorization;
 
-  if (req.headers.client === "no-browser") {
-    token = req.headers.authorization;
-  } else {
-    token = req.cookies["Authorization"];
+  if (!token) {
+    return res.status(401).json({
+      success: false,
+      message: "Authorization token is required",
+    });
   }
 
-  if (!token || token.trim() === "") {
-    return res.status(403).json({ success: false, message: "Unauthorized" });
+  if (!/^Bearer\s+/i.test(token)) {
+    return res.status(401).json({
+      success: false,
+      message: "Authorization token must use Bearer format",
+    });
   }
 
-  // Extract raw token
   const rawToken = token.replace(/^Bearer\s*/i, "").trim();
 
   try {
-    const jwtVerified = jwt.verify(rawToken, process.env.TOKEN_SECRET);
-    req.user = jwtVerified;
+    const decoded = jwt.verify(rawToken, process.env.TOKEN_SECRET);
+    req.user = decoded;
     next();
-  } catch (error) {
-    return res.status(403).json({ success: false, message: "Invalid token" });
+  } catch (err) {
+    return res.status(401).json({
+      success: false,
+      message: "Invalid or expired token",
+    });
   }
 };
